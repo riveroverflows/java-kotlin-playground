@@ -1,5 +1,3 @@
-import org.gradle.api.tasks.OutputDirectories
-
 plugins {
     id 'java'
     alias(libs.plugins.spring.boot)
@@ -55,7 +53,7 @@ test {
 
 bootJar {
     dependsOn asciidoctor
-    from ("${asciiDocOutputDir}/html5") {
+    from("${asciiDocOutputDir}/html5") {
         into 'static/docs'
     }
 }
