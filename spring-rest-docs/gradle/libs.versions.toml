@@ -1,0 +1,23 @@
+[versions]
+spring-boot = "3.4.1"
+spring-dependency = "1.1.7"
+asciidoctor = "3.3.2"
+
+
+[libraries]
+spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web", version.ref = "spring-boot" }
+spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test", version.ref = "spring-boot" }
+spring-restdocs-mockmvc = { group = "org.springframework.restdocs", name = "spring-restdocs-mockmvc" }
+junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
+lombok = { group = "org.projectlombok", name = "lombok" }
+#commons-lang3 = { group = "org.apache.commons", name = "commons-lang3", version = { strictly = "[3.8, 4.0[", prefer="3.9" } }
+
+
+[bundles]
+#groovy = ["groovy-core", "groovy-json", "groovy-nio"]
+
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+spring-dependency = { id = "io.spring.dependency-management", version.ref = "spring-dependency" }
+asciidoctor = { id = "org.asciidoctor.jvm.convert", version.ref = "asciidoctor" }

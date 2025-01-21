@@ -1,0 +1,61 @@
+import org.gradle.api.tasks.OutputDirectories
+
+plugins {
+    id 'java'
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency)
+    alias(libs.plugins.asciidoctor)
+}
+
+group = 'com.rofs'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {
+    asciidoctorExt
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    snippetsDir = file("build/generated-snippets")
+    asciiDocOutputDir = file("build/docs/asciidoc")
+}
+
+dependencies {
+    implementation libs.spring.boot.starter.web
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+    testImplementation libs.spring.boot.starter.test
+    testRuntimeOnly libs.junit.platform.launcher
+    testImplementation libs.spring.restdocs.mockmvc
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    outputDir snippetsDir
+    configurations 'asciidoctorExt'
+    dependsOn test
+}
+
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from ("${asciiDocOutputDir}/html5") {
+        into 'static/docs'
+    }
+}
