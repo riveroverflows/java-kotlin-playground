@@ -16,6 +16,7 @@ repositories {
 }
 
 dependencies {
+    testImplementation libs.assertj.core
     testImplementation platform(libs.junit.bom)
     testImplementation libs.junit.jupiter
 }
