@@ -1,6 +1,6 @@
 package com.rofs.spring.security.config.jwt;
 
-import com.rofs.spring.security.config.security.AuthUser;
+import com.rofs.spring.security.config.model.AuthUser;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

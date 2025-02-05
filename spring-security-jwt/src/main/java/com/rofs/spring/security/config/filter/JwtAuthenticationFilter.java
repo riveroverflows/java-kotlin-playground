@@ -1,4 +1,4 @@
-package com.rofs.spring.security.config.security.filter;
+package com.rofs.spring.security.config.filter;
 
 import com.rofs.spring.security.config.jwt.JwtProvider;
 import jakarta.servlet.FilterChain;

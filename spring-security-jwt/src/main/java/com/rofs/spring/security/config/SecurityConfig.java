@@ -1,9 +1,9 @@
-package com.rofs.spring.security.config.security;
+package com.rofs.spring.security.config;
 
 import com.rofs.spring.security.config.jwt.JwtAccessDeniedHandler;
 import com.rofs.spring.security.config.jwt.JwtAuthenticationEntryPoint;
 import com.rofs.spring.security.config.jwt.JwtProvider;
-import com.rofs.spring.security.config.security.filter.JwtAuthenticationFilter;
+import com.rofs.spring.security.config.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
