@@ -1,0 +1,11 @@
+[versions]
+jwt = "0.12.6"
+
+[libraries]
+# jwt
+jjwt-api = { group = "io.jsonwebtoken", name = "jjwt-api", version.ref = "jwt" }
+jjwt-impl = { group = "io.jsonwebtoken", name = "jjwt-impl", version.ref = "jwt" }
+jjwt-jackson = { group = "io.jsonwebtoken", name = "jjwt-jackson", version.ref = "jwt" }
+
+[bundles]
+# jjwt = ["jjwt-api", "jjwt-impl", "jjwt-jackson"]
