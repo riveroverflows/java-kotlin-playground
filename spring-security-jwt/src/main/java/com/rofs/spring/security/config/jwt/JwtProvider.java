@@ -23,15 +23,14 @@ import java.util.stream.Collectors;
 @Component
 public class JwtProvider {
     public static final String ID_KEY = "id";
-    private final JwtProperties jwtProperties;
+    public static final String NAME_KEY = "name";
     private final SecretKey key;
 
     private static final String AUTHORITIES_KEY = "authorities"; // 역할과 권한을 모두 포함
 
-    record JwtPayload(Long id, String subject, String authorities) {}
+    record JwtPayload(Long id, String name, String subject, String authorities) {}
 
     public JwtProvider(JwtProperties jwtProperties) {
-        this.jwtProperties = jwtProperties;
         byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecretKey());
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
@@ -42,6 +41,7 @@ public class JwtProvider {
 
         var payload = new JwtPayload(
             authUser.getId(),
+            authUser.getName(),
             authentication.getName(),
             authentication.getAuthorities().stream()
                           .map(GrantedAuthority::getAuthority)
@@ -54,6 +54,7 @@ public class JwtProvider {
         return Jwts.builder()
                    .subject(payload.subject())
                    .claim(ID_KEY, payload.id())
+                   .claim(NAME_KEY, payload.name())
                    .claim(AUTHORITIES_KEY, payload.authorities())
                    .issuedAt(now)
                    .expiration(expiration)
@@ -71,7 +72,13 @@ public class JwtProvider {
             ? Arrays.stream(roles.split(",")).map(SimpleGrantedAuthority::new).toList()
             : List.of();
 
-        UserDetails principal = new AuthUser(payload.get(ID_KEY, Long.class), payload.getSubject(), "", authorities);
+        UserDetails principal = AuthUser.of()
+                                        .username(payload.getSubject())
+                                        .authorities(authorities)
+                                        .password("")
+                                        .id(payload.get(ID_KEY, Long.class))
+                                        .name(payload.get(NAME_KEY, String.class))
+                                        .build();
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
