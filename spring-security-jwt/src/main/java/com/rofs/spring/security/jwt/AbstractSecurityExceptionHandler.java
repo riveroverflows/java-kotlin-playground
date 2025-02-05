@@ -1,7 +1,7 @@
-package com.rofs.spring.security.config.jwt;
+package com.rofs.spring.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rofs.spring.security.config.model.ErrorResponse;
+import com.rofs.spring.security.model.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

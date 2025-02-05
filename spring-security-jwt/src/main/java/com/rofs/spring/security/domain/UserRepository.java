@@ -1,4 +1,4 @@
-package com.rofs.spring.security.config.domain;
+package com.rofs.spring.security.domain;
 
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.rofs.spring.security.config.jwt;
+package com.rofs.spring.security.jwt;
 
 import lombok.Getter;
 import lombok.Setter;

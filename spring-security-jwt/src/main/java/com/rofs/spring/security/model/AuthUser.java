@@ -1,4 +1,4 @@
-package com.rofs.spring.security.config.model;
+package com.rofs.spring.security.model;
 
 import lombok.Builder;
 import lombok.Getter;

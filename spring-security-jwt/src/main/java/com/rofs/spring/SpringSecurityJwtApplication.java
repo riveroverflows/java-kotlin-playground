@@ -1,4 +1,4 @@
-package com.rofs.spring.security;
+package com.rofs.spring;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Encoders;

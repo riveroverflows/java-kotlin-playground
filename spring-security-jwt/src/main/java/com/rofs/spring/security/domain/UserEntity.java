@@ -1,6 +1,6 @@
-package com.rofs.spring.security.config.domain;
+package com.rofs.spring.security.domain;
 
-import com.rofs.spring.security.config.enums.Role;
+import com.rofs.spring.security.enums.Role;
 import lombok.Builder;
 import lombok.Getter;
 

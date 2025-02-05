@@ -1,7 +1,7 @@
-package com.rofs.spring.security.config.service;
+package com.rofs.spring.security.service;
 
-import com.rofs.spring.security.config.model.AuthUser;
-import com.rofs.spring.security.config.domain.UserRepository;
+import com.rofs.spring.security.model.AuthUser;
+import com.rofs.spring.security.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

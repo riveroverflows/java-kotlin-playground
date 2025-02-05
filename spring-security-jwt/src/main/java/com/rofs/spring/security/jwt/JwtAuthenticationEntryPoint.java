@@ -1,4 +1,4 @@
-package com.rofs.spring.security.config.jwt;
+package com.rofs.spring.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
