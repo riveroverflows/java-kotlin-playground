@@ -1,4 +1,4 @@
-package com.rofs.spring.security.config.filter;
+package com.rofs.spring.security.config.security.filter;
 
 import com.rofs.spring.security.config.jwt.JwtProvider;
 import jakarta.servlet.FilterChain;
@@ -29,8 +29,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(token) && jwtProvider.validateToken(token)) {
             Authentication authentication = jwtProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } else {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
 
         filterChain.doFilter(request, response);
