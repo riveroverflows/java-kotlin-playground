@@ -1,1 +1,4 @@
-spring.application.name=spring-security-jwt
+spring.application.name: spring-security-jwt
+
+jwt:
+  secret: 8t8Ob7d0zcU7qlTQ98jIf1Zc3xiZO2W259EIqYLvM2s=
