@@ -1,9 +1,9 @@
 package com.rofs.spring.config;
 
+import com.rofs.spring.security.filter.JwtAuthenticationFilter;
 import com.rofs.spring.security.jwt.JwtAccessDeniedHandler;
 import com.rofs.spring.security.jwt.JwtAuthenticationEntryPoint;
 import com.rofs.spring.security.jwt.JwtProvider;
-import com.rofs.spring.security.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +20,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -69,6 +74,44 @@ public class SecurityConfig {
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        // 허용할 도메인을 명시적으로 지정
+        // 운영 환경에선 * 사용하지 않는 것이 좋음
+        configuration.setAllowedOrigins(List.of(
+            "http://localhost:8080"
+        ));
+
+        // 필요한 HTTP 메서드만 허용
+        configuration.setAllowedMethods(List.of(
+            "GET", "POST", "PUT", "DELETE"
+        ));
+
+        // 필수 헤더만 허용
+        configuration.setAllowedHeaders(List.of(
+            "Authorization", // 인증 토큰/자격 증명
+            "Content-Type",
+            "X-Requested-With",  // ajax 요청 식별
+            "Accept",  // 클라이언트가 받아들일 수 있는 컨텐츠 타입: 응답 타입
+            "Origin"  // 요청이 어디서 왔는지: 요청 출처 도메인
+        ));
+
+        // 노출할 응답 헤더 제한
+        configuration.setExposedHeaders(List.of(
+            "Access-Control-Allow-Origin",
+            "Access-Control-Allow-Credentials"
+        ));
+
+        configuration.setMaxAge(3600L); // preflight 캐시 시간
+        configuration.setAllowCredentials(true); // jwt 인증 시 필요
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/api/**", configuration);
+        return source;
     }
 
     @Bean
