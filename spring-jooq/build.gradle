@@ -1,0 +1,123 @@
+import nu.studer.gradle.jooq.JooqEdition
+import org.jooq.meta.jaxb.Logging
+
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.3'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'nu.studer.jooq' version '9.0'
+}
+
+group = 'com.rofs.spring.jooq'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-jooq'
+    jooqGenerator 'com.mysql:mysql-connector-j' // jOOQ 코드 생성용
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    enabled = false
+}
+
+jooq {
+    version = '3.19.19'  // default (생략 가능)
+    edition = JooqEdition.OSS  // default (생략 가능)
+
+    configurations {
+        main {  // name of the jOOQ configuration
+            generateSchemaSourceOnCompilation = true  // default (can be omitted)
+
+            generationTool {
+                logging = Logging.WARN
+                jdbc {
+                    driver = 'com.mysql.cj.jdbc.Driver'
+                    url = 'jdbc:mysql://localhost:3306/river?serverTimezone=UTC&useSSL=false'
+//                    url = props.getProperty("spring.datasource.url", "jdbc:mysql://localhost:3306/river?serverTimezone=UTC&useSSL=false")
+                    user = 'root'
+                    password = '1234'
+                    properties {
+                        property {
+                            key = 'ssl'
+                            value = 'true'
+                        }
+                    }
+                }
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+                    database {
+                        name = 'org.jooq.meta.mysql.MySQLDatabase'
+                        inputSchema = 'river'
+
+                        // 테이블 필터링 (특정 테이블만 포함 / 제외 가능)
+                        includes = ".*" // 모든 테이블 포함 (정규식 사용 가능)
+                        excludes = "flyway_schema_history|temp_.*" // 특정 테이블 제외
+
+                        forcedTypes {
+                            forcedType {
+                                name = 'varchar'
+                                includeExpression = '.*'
+                                includeTypes = 'JSONB?'
+                            }
+                            forcedType {
+                                name = 'varchar'
+                                includeExpression = '.*'
+                                includeTypes = 'INET'
+                            }
+                        }
+                    }
+                    generate {
+                        deprecated = false
+                        records = true
+                        immutablePojos = true
+                        fluentSetters = true
+                        javaTimeTypes = true
+                    }
+                    target {
+                        packageName = 'com.rofs.jooq'
+                        directory = 'build/generated/jooq/'
+                    }
+                    strategy.name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+                }
+            }
+        }
+    }
+}
+
+tasks.named('generateJooq').configure {
+    allInputsDeclared = true
+    outputs.cacheIf { true }
+}
+
+tasks.named('generateJooq').configure {
+    launcher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.named('clean') {
+    dependsOn 'cleanGenerateJooq'
+}

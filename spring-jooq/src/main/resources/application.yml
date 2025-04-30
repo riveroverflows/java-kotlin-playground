@@ -1,0 +1,18 @@
+spring:
+  application.name: spring-jooq
+  datasource:
+    url: jdbc:mysql://localhost:3306/river?serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+        connection:
+          provider_disables_autocommit: false
