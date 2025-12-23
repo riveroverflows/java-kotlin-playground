@@ -11,12 +11,12 @@ import javax.crypto.SecretKey;
 public class SpringSecurityJwtApplication {
 
     public static void main(String[] args) {
-//        generateSecretKey();
+        generateSecretKey();
         SpringApplication.run(SpringSecurityJwtApplication.class, args);
     }
 
     private static void generateSecretKey() {
-        SecretKey key = Jwts.SIG.HS256.key().build();
+        SecretKey key = Jwts.SIG.HS512.key().build();
         String secretKey = Encoders.BASE64.encode(key.getEncoded());
         System.out.println("Generated Secret Key: " + secretKey);
     }
