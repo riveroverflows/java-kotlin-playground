@@ -9,6 +9,7 @@ import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -36,8 +37,12 @@ public class SoundPlayerUsingClip implements LineListener {
     }
 
     public void play(String audioFilePath, int count) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        InputStream inputStream = getClass().getResourceAsStream(audioFilePath);
-        audioStream = AudioSystem.getAudioInputStream(inputStream);
+        String path = "audio/" + audioFilePath;
+        InputStream is = getClass().getClassLoader().getResourceAsStream(path);
+        if (is == null) {
+            throw new IllegalStateException("audio resource not found: " + path);
+        }
+        audioStream = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
         AudioFormat format = audioStream.getFormat();
         DataLine.Info info = new DataLine.Info(Clip.class, format);
 
