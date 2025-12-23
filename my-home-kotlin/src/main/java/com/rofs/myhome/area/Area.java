@@ -1,6 +1,6 @@
 package com.rofs.myhome.area;
 
-import com.rofs.myhome.audio.SoundPlayerUsingClip;
+import com.rofs.myhome.soundplayer.SoundPlayerUsingClip;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;

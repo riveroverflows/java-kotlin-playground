@@ -5,7 +5,7 @@ import com.rofs.myhome.area.Arcade;
 import com.rofs.myhome.area.CraftShop;
 import com.rofs.myhome.area.Farm;
 import com.rofs.myhome.area.Forest;
-import com.rofs.myhome.audio.SoundPlayerUsingClip;
+import com.rofs.myhome.soundplayer.SoundPlayerUsingClip;
 import com.rofs.myhome.character.LevelUpThread;
 import com.rofs.myhome.character.Merchant;
 import com.rofs.myhome.character.Player;

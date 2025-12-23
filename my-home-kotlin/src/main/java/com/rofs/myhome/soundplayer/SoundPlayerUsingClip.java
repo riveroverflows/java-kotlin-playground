@@ -1,4 +1,4 @@
-package com.rofs.myhome.audio;
+package com.rofs.myhome.soundplayer;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
