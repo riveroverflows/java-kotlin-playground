@@ -77,12 +77,12 @@ Kotlin 학습 진행 및 개념 설명이 필요할 때 사용합니다.
 - 엣지 케이스 처리가 적절한가
 
 ### 2. Kotlin Idiom 적용
-- `val` vs `var` 적절한 사용
-- `data class` 활용 여부
-- `when` 표현식 활용
-- Null Safety 적절한 적용 (`?`, `?.`, `?:`, `!!`)
-- Scope functions 활용 (`let`, `apply`, `run`, `also`, `with`)
-- Collection functions 활용 (`map`, `filter`, `forEach` 등)
+- val vs var 적절한 사용
+- data class 활용 여부
+- when 표현식 활용
+- Null Safety 적절한 적용 (?, ?., ?:, !!)
+- Scope functions 활용 (let, apply, run, also, with)
+- Collection functions 활용 (map, filter, forEach 등)
 - String templates 활용
 - 단일 표현식 함수 활용
 
@@ -94,10 +94,10 @@ Kotlin 학습 진행 및 개념 설명이 필요할 때 사용합니다.
 
 ### 4. Null Safety
 - Nullable 타입 적절한 선언
-- Safe call (`?.`) 적절한 사용
-- Elvis operator (`?:`) 활용
-- `!!` 사용 최소화 및 정당성
-- `lateinit` vs nullable 선택 적절성
+- Safe call (?.) 적절한 사용
+- Elvis operator (?:) 활용
+- !! 사용 최소화 및 정당성
+- lateinit vs nullable 선택 적절성
 
 ## 리뷰 출력 형식
 
@@ -136,17 +136,17 @@ Kotlin 학습 진행 및 개념 설명이 필요할 때 사용합니다.
 
 | 단계 | 기대하는 Kotlin Idiom |
 |------|----------------------|
-| 단계 1 | `val`/`var`, `const val`, `enum class`, `data class`, Null Safety 기초 |
-| 단계 2 | `object`, `abstract class`, `open`, 프로퍼티, `lateinit` |
-| 단계 3 | `?.`, `?:`, `!!`, `mutableListOf`, `listOf`, `let` |
-| 단계 4 | 상속 (`:`), `override`, `super`, 주 생성자 상속 |
-| 단계 5 | 보조 생성자, 다단계 상속, `lazy` |
-| 단계 6 | 람다, `it`, 컬렉션 함수 (`find`, `filter`, `map`), `apply` |
-| 단계 7 | 2D 배열, `when` 심화, `repeat`, 범위 연산자 |
-| 단계 8 | 스코프 함수 5종 (`let`, `run`, `with`, `also`, `apply`), 확장 함수 |
-| 단계 9 | SAM 변환, `object : Interface`, `use`, `@Throws` |
-| 단계 10 | Runnable 람다, `@Volatile`, `synchronized` |
-| 단계 11 | top-level `main`, `@JvmStatic`, 전체 통합 |
+| 단계 1 | val/var, const val, enum class, data class, Null Safety 기초 |
+| 단계 2 | object, abstract class, open, 프로퍼티, lateinit |
+| 단계 3 | ?., ?:, !!, mutableListOf, listOf, let |
+| 단계 4 | 상속 (:), override, super, 주 생성자 상속 |
+| 단계 5 | 보조 생성자, 다단계 상속, lazy |
+| 단계 6 | 람다, it, 컬렉션 함수 (find, filter, map), apply |
+| 단계 7 | 2D 배열, when 심화, repeat, 범위 연산자 |
+| 단계 8 | 스코프 함수 5종 (let, run, with, also, apply), 확장 함수 |
+| 단계 9 | SAM 변환, object : Interface, use, @Throws |
+| 단계 10 | Runnable 람다, @Volatile, synchronized |
+| 단계 11 | top-level main, @JvmStatic, 전체 통합 |
 
 ### 피드백 원칙
 - 현재 학습 단계에서 배운 내용 위주로 피드백
@@ -181,12 +181,12 @@ Kotlin 학습 진행 및 개념 설명이 필요할 때 사용합니다.
 | Java 패턴 | Kotlin 개선 |
 |-----------|-------------|
 | getter/setter 직접 구현 | property 사용 |
-| `if (x != null)` 체크 | `?.let { }` 또는 `?:` |
-| `for (item in list)` | `list.forEach { }` 또는 `list.map { }` |
-| `switch` 스타일 | `when` 표현식 |
-| `StringBuilder` 연결 | String template `${}` |
-| static 메서드 | `companion object` 또는 top-level function |
-| 장황한 생성자 | `data class` 또는 primary constructor |
+| if (x != null) 체크 | ?.let 또는 ?: |
+| for (item in list) | list.forEach 또는 list.map |
+| switch 스타일 | when 표현식 |
+| StringBuilder 연결 | String template |
+| static 메서드 | companion object 또는 top-level function |
+| 장황한 생성자 | data class 또는 primary constructor |
 
 ## 주의사항
 
