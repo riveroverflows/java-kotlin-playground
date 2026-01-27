@@ -18,16 +18,27 @@ disable-model-invocation: true
 ## 참조 문서
 
 - **커리큘럼**: @docs/curriculum/kotlin-learning-curriculum.md
-- **Kotlin 공식 가이드**: Context7 MCP 활용 (`--c7` 플래그)
+- **Kotlin 공식문서**: https://kotlinlang.org/docs (필수 참조)
 
-### Context7 활용
-Kotlin 공식 스타일 가이드나 최신 idiom 확인이 필요할 때 Context7를 활용합니다:
-```
-/kotlin-review @파일.kt --c7
-```
-- Kotlin 공식 코딩 컨벤션 참조
-- 최신 Kotlin 버전의 권장 패턴 확인
-- 공식 문서 기반의 정확한 피드백 제공
+### 🔴 공식문서 기반 피드백 원칙 (필수)
+
+모든 리뷰 피드백은 **반드시** Kotlin 공식문서에 기반해야 합니다:
+
+1. **Context7 활용** (권장)
+   - `mcp__context7__resolve-library-id`로 Kotlin 라이브러리 ID 조회
+   - `mcp__context7__query-docs`로 관련 공식문서 검색
+   - 예: `let` 사용법 → Context7에서 "kotlin scope functions let" 검색
+
+2. **직접 문서 참조** (Context7 불가 시)
+   - https://kotlinlang.org/docs/null-safety.html (Null Safety)
+   - https://kotlinlang.org/docs/scope-functions.html (Scope Functions)
+   - https://kotlinlang.org/docs/coding-conventions.html (코딩 컨벤션)
+   - https://kotlinlang.org/docs/idioms.html (Kotlin Idioms)
+
+3. **피드백 작성 규칙**
+   - 모든 개선 제안에 공식문서 근거 명시
+   - "공식문서에 따르면..." 또는 📚 아이콘으로 출처 표시
+   - 추측이나 관행이 아닌 공식 권장사항 기반
 
 ## 사용 방법
 
@@ -104,6 +115,7 @@ Kotlin 학습 진행 및 개념 설명이 필요할 때 사용합니다.
    - 현재: `[현재 코드]`
    - 제안: `[개선 코드]`
    - 이유: [왜 이렇게 하면 더 좋은지]
+   - 📚 근거: [공식문서 링크 또는 Context7 참조]
 
 2. **[카테고리]**: [문제 설명]
    ...
@@ -124,11 +136,17 @@ Kotlin 학습 진행 및 개념 설명이 필요할 때 사용합니다.
 
 | 단계 | 기대하는 Kotlin Idiom |
 |------|----------------------|
-| 단계 1 | `val`/`var`, 기본 타입, nullable 기초 |
-| 단계 2 | `data class`, `object`, `companion object` |
-| 단계 3 | 상속, `sealed class`, `override` |
-| 단계 4 | Collection functions, `when`, `forEach` |
-| 단계 5 | Scope functions, 종합 적용 |
+| 단계 1 | `val`/`var`, `const val`, `enum class`, `data class`, Null Safety 기초 |
+| 단계 2 | `object`, `abstract class`, `open`, 프로퍼티, `lateinit` |
+| 단계 3 | `?.`, `?:`, `!!`, `mutableListOf`, `listOf`, `let` |
+| 단계 4 | 상속 (`:`), `override`, `super`, 주 생성자 상속 |
+| 단계 5 | 보조 생성자, 다단계 상속, `lazy` |
+| 단계 6 | 람다, `it`, 컬렉션 함수 (`find`, `filter`, `map`), `apply` |
+| 단계 7 | 2D 배열, `when` 심화, `repeat`, 범위 연산자 |
+| 단계 8 | 스코프 함수 5종 (`let`, `run`, `with`, `also`, `apply`), 확장 함수 |
+| 단계 9 | SAM 변환, `object : Interface`, `use`, `@Throws` |
+| 단계 10 | Runnable 람다, `@Volatile`, `synchronized` |
+| 단계 11 | top-level `main`, `@JvmStatic`, 전체 통합 |
 
 ### 피드백 원칙
 - 현재 학습 단계에서 배운 내용 위주로 피드백
@@ -146,9 +164,10 @@ Kotlin 학습 진행 및 개념 설명이 필요할 때 사용합니다.
 ### 리뷰 진행 시
 1. 전체 구조 파악
 2. 정확성 검토
-3. Kotlin Idiom 적용 검토
-4. Null Safety 검토
-5. 코드 품질 검토
+3. 📚 **Context7로 관련 공식문서 조회** (필수)
+4. Kotlin Idiom 적용 검토 (공식문서 기준)
+5. Null Safety 검토 (공식문서 기준)
+6. 코드 품질 검토
 
 ### 리뷰 완료 시
 1. 구조화된 피드백 제공

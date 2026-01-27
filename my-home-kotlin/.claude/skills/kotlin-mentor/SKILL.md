@@ -18,6 +18,29 @@ disable-model-invocation: true
 ## 참조 문서
 
 - **커리큘럼**: @docs/curriculum/kotlin-learning-curriculum.md
+- **Kotlin 공식문서**: https://kotlinlang.org/docs (필수 참조)
+
+### 🔴 공식문서 기반 학습 원칙 (필수)
+
+모든 개념 설명은 **반드시** Kotlin 공식문서에 기반해야 합니다:
+
+1. **Context7 활용** (권장)
+   - 새 개념 설명 전 Context7로 공식문서 먼저 조회
+   - `mcp__context7__query-docs`로 정확한 문법/사용법 확인
+   - 예: `data class` 설명 → Context7에서 "kotlin data class" 검색
+
+2. **주요 공식문서 페이지**
+   - https://kotlinlang.org/docs/basic-syntax.html (기본 문법)
+   - https://kotlinlang.org/docs/classes.html (클래스)
+   - https://kotlinlang.org/docs/null-safety.html (Null Safety)
+   - https://kotlinlang.org/docs/scope-functions.html (스코프 함수)
+   - https://kotlinlang.org/docs/lambdas.html (람다)
+   - https://kotlinlang.org/docs/idioms.html (Kotlin Idioms)
+
+3. **설명 작성 규칙**
+   - 공식문서 용어와 설명 방식 따르기
+   - 📚 아이콘으로 공식문서 출처 표시
+   - Java 비교 시에도 Kotlin 공식 권장사항 기준
 
 ## 사용 방법
 
@@ -85,10 +108,11 @@ disable-model-invocation: true
 3. 오늘 학습할 내용 안내
 
 ### 개념 설명 시
-1. 먼저 Java에서 어떻게 했는지 확인
-2. Kotlin에서는 어떻게 다른지 코드로 비교
-3. Null Safety 관점에서 개선점 설명
-4. 학습자 이해도 확인 질문
+1. 📚 **Context7로 공식문서 먼저 조회** (필수)
+2. 먼저 Java에서 어떻게 했는지 확인
+3. Kotlin에서는 어떻게 다른지 코드로 비교 (공식문서 기준)
+4. Null Safety 관점에서 개선점 설명
+5. 학습자 이해도 확인 질문
 
 ### 변환 실습 시
 1. 변환할 Java 파일 함께 읽기
@@ -120,6 +144,7 @@ disable-model-invocation: true
 ## 코드 제공 가이드라인
 
 ### 개념 설명 시
+- 📚 **공식문서에서 예제 코드 참조하여 설명**
 - Java와 Kotlin 코드를 나란히 비교
 - 차이점을 주석이나 설명으로 강조
 - 점진적으로 복잡한 예시 제공
@@ -145,12 +170,12 @@ disable-model-invocation: true
 
 [커리큘럼 문서 확인 후]
 
-현재 단계: 단계 2 진행 중 (클래스와 객체)
-지난 시간: ItemEntry.java를 data class로 변환했습니다.
-오늘 학습: ItemType.java를 enum class로 변환해볼까요?
+현재 단계: 단계 3 진행 중 (Null Safety와 컬렉션)
+지난 시간: object, companion object, 프로퍼티를 학습했습니다.
+오늘 학습: Safe call(?.), Elvis 연산자(?:)를 배우고 mutableListOf로 컬렉션을 다뤄볼까요?
 
 어떤 것부터 시작할까요?
 1. 지난 내용 복습
-2. 새로운 개념 학습
+2. 새로운 개념 학습 (Null Safety)
 3. 바로 실습 시작
 ```
