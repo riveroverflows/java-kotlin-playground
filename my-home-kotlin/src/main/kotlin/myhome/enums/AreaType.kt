@@ -1,6 +1,6 @@
 package com.rofs.myhome.enums
 
-enum class AreaType(val value: String) {
+enum class AreaType(val label: String) {
     FOREST("숲"),
     FARM("농장"),
     ANIMAL_FARM("동물농장"),
