@@ -9,10 +9,10 @@
 
 ## 단계 1: 기반 클래스 (의존성 없음)
 
-- [ ] 학습 시작
-- [ ] 이론 학습 완료
-- [ ] 실습 완료
-- [ ] 체크포인트 통과
+- [x] 학습 시작
+- [x] 이론 학습 완료
+- [x] 실습 완료
+- [x] 체크포인트 통과
 
 ### 학습 목표
 - Kotlin의 기본 변수 선언과 타입 추론 이해
@@ -66,11 +66,11 @@
 - 단계 완료 후: 기존 Java 코드에서 변환된 Kotlin 클래스 참조 가능 확인
 
 ### 체크포인트
-- [ ] `val`과 `var`의 차이를 설명할 수 있다
-- [ ] `const val`과 `val`의 차이를 설명할 수 있다
-- [ ] `enum class`와 `when` 표현식의 기본 사용법을 이해한다
-- [ ] `data class`의 자동 생성 기능을 설명할 수 있다
-- [ ] 4개 파일 변환 완료 + 컴파일 성공
+- [x] `val`과 `var`의 차이를 설명할 수 있다
+- [x] `const val`과 `val`의 차이를 설명할 수 있다
+- [x] `enum class`와 `when` 표현식의 기본 사용법을 이해한다
+- [x] `data class`의 자동 생성 기능을 설명할 수 있다
+- [x] 4개 파일 변환 완료 + 컴파일 성공
 
 ---
 
@@ -798,22 +798,40 @@
 > 학습자는 이 섹션을 통해 진행 상황을 확인할 수 있습니다.
 
 ### 현재 상태
-- **진행 단계**: 시작 전
-- **변환 완료 파일**: 0/43
-- **마지막 학습일**: -
-- **다음 학습 예정**: 단계 1 - 기반 클래스 (MyHomeConstants, ItemType, AreaType, TitleInfo)
+- **진행 단계**: 단계 1 완료 ✅
+- **변환 완료 파일**: 4/43
+- **마지막 학습일**: 2025-01-27
+- **다음 학습 예정**: 단계 2 - 베이스 클래스 (MyHomeUtils, Item, Character, MiniGamePiece)
 
 ### 세션 로그
 | 날짜 | 시간 | 다룬 내용 | 완료 여부 |
 |------|------|-----------|-----------|
-| - | - | - | - |
+| 2025-01-27 | - | 단계 1 전체 (object, enum class, data class) | ✅ 완료 |
 
 ### 학습 노트
 > 멘토가 기록하는 학습 중 발견한 인사이트, 주의사항, 학습자 특성 등
 
-- (학습 진행 시 기록)
+- 학습자가 직접 코드를 먼저 작성해보는 스타일 (자기주도적)
+- 패키지 구조 리팩토링 의지 있음 (etc→utils, item→enums 등)
+- 공식문서를 직접 찾아보는 적극적인 학습 태도
+- immutable 스타일에 대한 이해도 높음 (val 선호 원칙 질문)
+
+### 변환된 파일 매핑
+| 원본 Java | 변환된 Kotlin | 패키지 변경 |
+|-----------|---------------|-------------|
+| MyHomeConstants.java | MyHomeConstants.kt | etc → utils |
+| ItemType.java | ItemType.kt | item → enums |
+| AreaType.java | AreaType.kt | area → enums |
+| TitleInfo.java | TitleDetail.kt (리네임) | quest → title |
 
 ### Q&A 기록
 > 학습 중 나온 질문과 답변 기록
 
-- (학습 진행 시 기록)
+- **Q**: `const val`과 `val`의 차이?
+  - **A**: `const val`은 컴파일 타임 상수 (primitive/String만, 인라인됨), `val`은 런타임 상수 (모든 타입, 함수 호출 가능)
+- **Q**: Java/Kotlin 같은 패키지에 같은 클래스명이면?
+  - **A**: Redeclaration 에러 발생. 변환 완료 후 Java 파일 삭제하거나 패키지 분리 필요
+- **Q**: `data class`가 equals/hashCode/toString을 자동 생성하는 원리?
+  - **A**: Kotlin의 모든 클래스는 `Any`를 상속. `data class`는 컴파일러가 자동으로 이 메서드들을 오버라이드하는 코드 생성
+- **Q**: `var achieved`를 불변으로 개선하려면?
+  - **A**: `val achieved`로 변경하고 `copy()` 메서드 활용 (data class 자동 생성)
