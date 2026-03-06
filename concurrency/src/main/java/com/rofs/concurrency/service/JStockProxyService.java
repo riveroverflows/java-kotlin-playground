@@ -1,10 +1,10 @@
 package com.rofs.concurrency.service;
 
-public class JTransactionalStockService {
+public class JStockProxyService {
 
     private JStockService stockService;
 
-    public JTransactionalStockService(JStockService stockService) {
+    public JStockProxyService(JStockService stockService) {
         this.stockService = stockService;
     }
 
