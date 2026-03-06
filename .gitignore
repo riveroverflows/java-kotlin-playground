@@ -36,4 +36,13 @@ out/
 ### VS Code ###
 .vscode/
 
+
+### macOS ###
 .DS_Store
+
+### mcp ###
+.serena
+**/.serena
+
+### local db ###
+data

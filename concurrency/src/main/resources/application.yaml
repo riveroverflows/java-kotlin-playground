@@ -1,3 +1,23 @@
 spring:
   application:
     name: concurrency
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:33066}/${MYSQL_DATABASE:concurrency}
+    username: ${MYSQL_USER:con}
+    password: ${MYSQL_PASSWORD:1234}
+    hikari:
+      maximum-pool-size: 40
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
