@@ -1,4 +1,4 @@
-package com.rofs.concurrency.service;
+package com.rofs.concurrency.facade;
 
 import com.rofs.concurrency.JConcurrencyApplication;
 import com.rofs.concurrency.domain.JStock;
@@ -16,10 +16,10 @@ import java.util.concurrent.Executors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = JConcurrencyApplication.class)
-class JPessimisticLockStockServiceTest {
+class JOptimisticLockStockFacadeTest {
 
     @Autowired
-    private JPessimisticLockStockService pessimisticLockStockService;
+    private JOptimisticLockStockFacade optimisticLockStockFacade;
 
     @Autowired
     private JStockRepository stockRepository;
@@ -35,14 +35,6 @@ class JPessimisticLockStockServiceTest {
     }
 
     @Test
-    public void decrease() {
-        pessimisticLockStockService.decrease(1L, 1L);
-        // 100 - 1 = 99
-        JStock stock = stockRepository.findById(1L).orElseThrow();
-        assertThat(stock.getQuantity()).isEqualTo(99);
-    }
-
-    @Test
     public void 동시에_100개의_요청() throws InterruptedException {
         int threadCount = 100;
         ExecutorService executorService = Executors.newFixedThreadPool(32);
@@ -51,7 +43,9 @@ class JPessimisticLockStockServiceTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    pessimisticLockStockService.decrease(1L, 1L);
+                    optimisticLockStockFacade.decrease(1L, 1L);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 } finally {
                     latch.countDown();
                 }
@@ -65,4 +59,5 @@ class JPessimisticLockStockServiceTest {
         // 100 - (1 * 100) = 0
         assertThat(stock.getQuantity()).isEqualTo(0);
     }
+
 }
