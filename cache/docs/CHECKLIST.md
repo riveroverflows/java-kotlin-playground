@@ -13,7 +13,7 @@
 ## algorithm 패키지
 
 - [x] `LRUCache.java`
-- [ ] `LFUCache.java`
+- [x] `LFUCache.java`
 
 ## 문서
 
