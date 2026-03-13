@@ -7,7 +7,7 @@
 - [x] `InMemoryCacheTemplate.java` — get/set/setIfAbsent/remove/hasKey/pop/keys/size 기본 동작 완료
   - `Weigher.java` 완료 (같은 패키지)
 - [x] `InMemoryCacheTemplate.java` — eviction 완료 (lazy: get/set/hasKey/remove/pop 시점, active: evictExpired())
-- [ ] `CacheRegistry.java` — **현재 진행 중**
+- [x] `CacheRegistry.java` — 팩토리 메서드 + 스케줄러 완료
 - [ ] `RedisCacheTemplate.java`
 
 ## algorithm 패키지
