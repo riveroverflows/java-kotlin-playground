@@ -8,11 +8,11 @@
   - `Weigher.java` 완료 (같은 패키지)
 - [x] `InMemoryCacheTemplate.java` — eviction 완료 (lazy: get/set/hasKey/remove/pop 시점, active: evictExpired())
 - [x] `CacheRegistry.java` — 팩토리 메서드 + 스케줄러 완료
-- [ ] `RedisCacheTemplate.java`
+- [x] `RedisCacheTemplate.java` — Jedis 기반 구현 완료
 
 ## algorithm 패키지
 
-- [ ] `LRUCache.java`
+- [x] `LRUCache.java`
 - [ ] `LFUCache.java`
 
 ## 문서
