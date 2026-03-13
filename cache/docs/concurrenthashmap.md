@@ -221,3 +221,40 @@ scheduler.scheduleWithFixedDelay(() -> {
 완벽한 원자성을 보장하려면 해당 블록 전체를 `synchronized`로 감싸야 한다. 하지만 그러면 ConcurrentHashMap을 쓰는 이점(버킷 단위 락)이 사라진다.
 
 이 구현에서는 학습 목적 상 non-atomic 구조를 유지하고, 주석으로 한계를 명시했다.
+
+---
+
+## evictExpired() 구현 (2026-03-13 10:55)
+
+### 역할
+
+active eviction 담당 메서드. `CacheRegistry`의 스케줄러가 주기적으로 호출해서 lazy eviction이 놓친 만료 항목을 정리한다.
+
+### 구현
+
+```java
+void evictExpired() {
+    for (Entry<K, CacheEntry<V>> entry : store.entrySet()) {
+        K key = entry.getKey();
+        CacheEntry<V> value = entry.getValue();
+        if (value.isExpired()) {
+            store.remove(key);
+            if (weigher != null) {
+                currentWeight -= weigher.weigh(key, value.value());
+            }
+        }
+    }
+}
+```
+
+### ConcurrentHashMap 순회 중 remove
+
+`ConcurrentHashMap`은 순회(`entrySet()`) 중 `remove()`를 호출해도 `ConcurrentModificationException`이 발생하지 않는다. 일반 `HashMap`과 달리 순회 중 수정이 안전하게 허용된다.
+
+### package-private 접근 제어
+
+`evictExpired()`는 캐시 사용자가 직접 호출하는 메서드가 아니라 `CacheRegistry`(스케줄러)가 내부적으로 호출하는 메서드다. `CacheOperations` 인터페이스에 포함시키지 않고, `public` 대신 package-private으로 선언해 외부 노출을 최소화했다.
+
+### ConcurrentHashMap의 null value
+
+`ConcurrentHashMap`은 null value 저장을 허용하지 않는다. 따라서 `entrySet()` 순회 중 `entry.getValue() == null` 체크는 불필요하다. `store.get(key)`가 null을 반환하는 경우는 key가 없을 때뿐이며, `entrySet()`으로 순회하면 항상 유효한 value가 보장된다.

@@ -1,6 +1,7 @@
 package com.rofs.cache.local;
 
 import java.time.Duration;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -171,5 +172,20 @@ public class InMemoryCacheTemplate<K, V> implements CacheOperations<K, V> {
     @Override
     public long size() {
         return store.size();
+    }
+
+    void evictExpired() {
+        for (Entry<K, CacheEntry<V>> entry : store.entrySet()) {
+            K key = entry.getKey();
+            CacheEntry<V> value = entry.getValue();
+
+            if (value.isExpired()) {
+                store.remove(key);
+                if (weigher != null) {
+                    int weight = weigher.weigh(key, value.value());
+                    currentWeight -= weight;
+                }
+            }
+        }
     }
 }
