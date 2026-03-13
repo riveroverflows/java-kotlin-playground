@@ -18,6 +18,14 @@ public class InMemoryCacheTemplate<K, V> implements CacheOperations<K, V> {
         this(1000, Duration.ofMinutes(3));
     }
 
+    public InMemoryCacheTemplate(int maxCount) {
+        this(maxCount, Duration.ofMinutes(3));
+    }
+
+    public InMemoryCacheTemplate(Duration defaultTtl) {
+        this(1000, defaultTtl);
+    }
+
     public InMemoryCacheTemplate(int maxCount, Duration defaultTtl) {
         store = new ConcurrentHashMap<>((int) (maxCount / 0.75f) + 1);
         this.maxCount = maxCount;

@@ -258,3 +258,67 @@ void evictExpired() {
 ### ConcurrentHashMap의 null value
 
 `ConcurrentHashMap`은 null value 저장을 허용하지 않는다. 따라서 `entrySet()` 순회 중 `entry.getValue() == null` 체크는 불필요하다. `store.get(key)`가 null을 반환하는 경우는 key가 없을 때뿐이며, `entrySet()`으로 순회하면 항상 유효한 value가 보장된다.
+
+---
+
+## CacheRegistry 구현 (2026-03-13 11:47)
+
+### 역할
+
+단일 `ScheduledExecutorService`로 여러 캐시의 `evictExpired()`를 주기적으로 호출한다.
+캐시는 팩토리 메서드(`create()`)를 통해서만 생성 가능하고, 생성과 동시에 스케줄에 등록된다.
+
+### 구조
+
+```
+CacheRegistry
+├── List<InMemoryCacheTemplate<?, ?>> caches  — 등록된 캐시 목록
+└── ScheduledExecutorService scheduler         — 공유 스케줄러
+
+create(...) 호출 시:
+  1. InMemoryCacheTemplate 생성
+  2. caches 리스트에 추가
+  3. scheduler.scheduleWithFixedDelay()로 evictExpired() 등록
+  4. 생성된 캐시 반환
+```
+
+### scheduleWithFixedDelay vs scheduleAtFixedRate
+
+| 방식 | 실행 주기 기준 | 특징 |
+|------|--------------|------|
+| `scheduleAtFixedRate` | 이전 실행 **시작** 시점 기준 | eviction이 오래 걸리면 다음 실행이 겹칠 수 있음 |
+| `scheduleWithFixedDelay` | 이전 실행 **완료** 시점 기준 | 완료 후 대기 → 겹침 없음 |
+
+eviction은 완료 후 일정 주기를 쉬는 게 더 적합하므로 `scheduleWithFixedDelay`를 사용했다.
+
+### try-catch로 예외를 삼키는 이유
+
+`ScheduledExecutorService`는 태스크에서 예외가 발생하면 해당 태스크를 조용히 중단한다. 에러 로그도 없고, 왜 eviction이 멈췄는지 알 수 없다. try-catch로 예외를 삼키면 태스크가 계속 실행된다.
+
+```java
+scheduler.scheduleWithFixedDelay(() -> {
+    try {
+        cache.evictExpired();
+    } catch (Exception e) {
+        // 예외를 삼켜서 태스크가 계속 실행되도록 함
+    }
+}, periodMillis, periodMillis, TimeUnit.MILLISECONDS);
+```
+
+### 캐시별 다른 eviction 주기
+
+각 `create()` 메서드가 `evictPeriod`를 받아 해당 캐시에 대해 별도 스케줄을 등록한다. 스케줄러는 하나지만 태스크는 캐시마다 독립적으로 등록된다.
+
+### wildcard와 타입 파라미터
+
+public API는 `InMemoryCacheTemplate<?, ?>` 반환 — 다양한 타입의 캐시를 하나의 리스트에 담기 위해 wildcard를 사용한다.
+
+단, private 위임 메서드는 `<K, V>`로 선언해야 `evictExpired()`(package-private) 호출이 가능하다. wildcard 캡처 타입에서는 package-private 메서드에 접근할 수 없기 때문이다.
+
+```java
+// wildcard → evictExpired() 호출 불가 (컴파일 에러)
+private InMemoryCacheTemplate<?, ?> create(InMemoryCacheTemplate<?, ?> cache, ...) { ... }
+
+// 타입 파라미터 → 가능
+private <K, V> InMemoryCacheTemplate<K, V> create(InMemoryCacheTemplate<K, V> cache, ...) { ... }
+```
