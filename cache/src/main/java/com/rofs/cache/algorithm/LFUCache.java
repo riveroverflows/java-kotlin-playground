@@ -1,6 +1,7 @@
 package com.rofs.cache.algorithm;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
@@ -69,7 +70,7 @@ public class LFUCache<K, V> {
 
     private void evict() {
         LinkedHashSet<K> minBucket = freqMap.get(minFreq);
-        K evictKey = minBucket.iterator().next(); // 가장 먼저 삽입된 key = LRU 순서
+        K evictKey = minBucket.getFirst(); // 가장 먼저 삽입된 key = LRU 순서
         minBucket.remove(evictKey);
         if (minBucket.isEmpty()) {
             freqMap.remove(minFreq);
@@ -77,7 +78,15 @@ public class LFUCache<K, V> {
         keyMap.remove(evictKey);
     }
 
+    /** key → freq 맵 반환 (시뮬레이션/테스트용) */
+    Map<K, Integer> keyFreqs() {
+        Map<K, Integer> result = new LinkedHashMap<>();
+        keyMap.forEach((k, node) -> result.put(k, node.freq));
+        return result;
+    }
+
     private static class Node<K, V> {
+
         K key;
         V value;
         int freq;

@@ -1,6 +1,8 @@
 package com.rofs.cache.algorithm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LRUCache<K, V> {
@@ -72,6 +74,17 @@ public class LRUCache<K, V> {
         Node<K, V> node = tail.prev;
         removeNode(node);
         return node;
+    }
+
+    /** LRU → MRU 순서로 key 목록 반환 (시뮬레이션/테스트용) */
+    List<K> keysLruToMru() {
+        List<K> result = new ArrayList<>();
+        Node<K, V> cur = tail.prev;
+        while (cur != head) {
+            result.add(cur.key);
+            cur = cur.prev;
+        }
+        return result;
     }
 
     private static class Node<K, V> {
