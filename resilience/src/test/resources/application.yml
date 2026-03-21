@@ -1,0 +1,13 @@
+resilience4j:
+  circuitbreaker:
+    instances:
+      pg:
+        sliding-window-size: 100
+        minimum-number-of-calls: 100
+        failure-rate-threshold: 100
+        wait-duration-in-open-state: 60s
+  retry:
+    instances:
+      pg:
+        max-attempts: 3
+        wait-duration: 100ms
